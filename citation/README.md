@@ -13,7 +13,7 @@ We use the same semi-supervised setting as [GCN](https://github.com/tkipf/gcn)
 ## Usage
 To reproduce the results, run the following script
 ```sh
-sh semi.sh
+sh run.sh
 ```
 
 ## Reference implementation
