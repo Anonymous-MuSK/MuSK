@@ -172,6 +172,6 @@ for epoch in range(args.epochs):
 if args.test:
     acc = test()[1]
 
-print('The number of parameters: {:04d}->{:04d}'.format(count_params(teacher), count_params(model)))
+print('The number of parameters in the student: {:04d}'.format(count_params(model)))
 print('Load {}th epoch'.format(best_epoch))
 print("Test" if args.test else "Val","acc.:{:.2f}".format(acc*100))
