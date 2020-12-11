@@ -34,7 +34,7 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 - torch-geometric 1.6.1
 
 ### Datasets
-The `data` folder contains three benchmark datasets(Cora, Citeseer, Pubmed)
+The `data` folder contains three benchmark datasets(Cora, Citeseer, Pubmed).
 We use the same semi-supervised setting as [GCN](https://github.com/tkipf/gcn).
 
 ### Simple Demo
