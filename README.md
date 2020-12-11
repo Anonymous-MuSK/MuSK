@@ -5,9 +5,12 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 
 ## Overview
 /Users/hony/Desktop/OVERVIEW.pdf
-1. #### Preserving Multi-hop Feature Aggregation: MuSK preserves the feature aggregation procedure of deep GCN layers of the teacher in a single effective GCN layer of a student.
-2. #### Distilling Knowledge from Trained Deep GCNs: MuSK distills the last hidden embeddings after K-hop aggregations of the teacher into the student. This distillation guides the student to follow the teacher’s behavior more carefully.
-3. #### Distilling Knowledge of Predictions: The distillation of task prediction guides the student to obtain similar predictive outputs as the teacher.
+1. #### Preserving Multi-hop Feature Aggregation: 
+    MuSK preserves the feature aggregation procedure of deep GCN layers of the teacher in a single effective GCN layer of a student.
+2. #### Distilling Knowledge from Trained Deep GCNs: 
+    MuSK distills the last hidden embeddings after K-hop aggregations of the teacher into the student. This distillation guides the student to follow the teacher’s behavior more carefully.
+3. #### Distilling Knowledge of Predictions: 
+    The distillation of task prediction guides the student to obtain similar predictive outputs as the teacher.
 
 ## Code Description
 - src/citation/model.py: Model architecture of GCNII
