@@ -43,6 +43,8 @@ You can run the demo sript by `bash citation.sh`.
 It trains MuSK on Cora, Citetation, and Pubmed.
 This demo saves the trained student model at `src/citation/student/student_{DATASET}{#LAYERS}.pth`.
 Then, it evaluates the trained model in terms of accuracy. 
+- {DATASET}: Cora, Citeseer, Pubmed
+- {#LAYERS}: # of layers in the teacher model
 
 #### Results of the Demo
 | **Dataset**      |   **Teacher Layers** |   **Accuracy** | 
