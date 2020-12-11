@@ -15,15 +15,14 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 - src/citation/utils.py: Utility functions for GCNII
 - src/citation/student_train.py: Trains a student GCNII model
 - src/citation/teacher_train.py: Trains a teacher GCNII model
-- src/citation/teacher: Pre-trained teacher model path
-- src/citation/student: Student model path
+- src/citation/teacher: Pre-trained teacher model path for citation dataset
+- src/citation/student: Student model path for citation dataset
 - src/ogbn-proteins/model.py: Model architecture of GEN
 - src/ogbn-proteins/utils.py: Utility functions for GEN
 - src/ogbn-proteins/student_train.py: Trains a student GEN model
 - src/ogbn-proteins/teacher_train.py: Trains a teacher GEN model
-- src/ogbn-proteins/student: Pre-trained teacher model path
-- src/ogbn-proteins/teacher: Student model path
-
+- src/ogbn-proteins/student: Pre-trained teacher model path for ogbn-proteins
+- src/ogbn-proteins/teacher: Student model path for ogbn-proteins
 
 
 ## Citation dataset
@@ -44,15 +43,6 @@ It trains MuSK on Cora, Citetation, and Pubmed.
 This demo saves the trained student model at `src/citation/student/student_{DATASET}{#LAYERS}.pt`.
 Then, it evaluates the trained model in terms of accuracy. 
 
-### Results of MuSK using Pre-trained Teacher
-The experimental results with the pre-trained teachers are as follows:
-
-| **Dataset**      |   **Accuracy** |
-|:--------------:    |:------:    |
-| **Cora**    | 84.70     |
-| **Citeseer**   | 72.41     |
-| **Pubmed**         | 79.90     |
-
 #### Used Hyperparameters 
 We briefly summarize the hyperparameters.
 
@@ -69,7 +59,7 @@ We briefly summarize the hyperparameters.
     - `kernel`: kernel function
 
 #### Detailed Usage
-You can reproduce the results with the following command which evaluates a test dataset using a pre-trained model. 
+You can reproduce results with the following command which evaluates a test dataset using a pre-trained model. 
 ```shell
 python -u src/citation/student_train.py --data cora --layer 64 --test --lbd_pred 1 --lbd_embd 0.01 --kernel kl
 python -u src/citation/student_train.py --data citeseer --layer 64 --t_hidden 256 --s_hidden 256 --lamda 0.6 --dropout 0.7 --test --lbd_pred 0.1 --lbd_embd 0.01 --kernel kl
