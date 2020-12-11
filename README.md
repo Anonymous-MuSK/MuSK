@@ -45,11 +45,11 @@ This demo saves the trained student model at `src/citation/student/student_{DATA
 Then, it evaluates the trained model in terms of accuracy. 
 
 #### Results of the Demo
-| **Dataset**      |   **Accuracy** | 
-|:--------------:    |:------:    |
-| **Cora**    | 84.70     |
-| **Citeseer**   | 72.70     |
-| **Pubmed**         | 80.04     |
+| **Dataset**      |   **# Teacher Layers** |   **Accuracy** | 
+|:--------------:    |:------:    |------:    |
+| **Cora**    | 64     | 84.70     |
+| **Citeseer**   | 64     | 72.70     |
+| **Pubmed**         | 64     | 80.04     |
 
 #### Used Hyperparameters 
 We briefly summarize the hyperparameters.
@@ -105,9 +105,9 @@ This demo saves the trained student model at `./src/ogbn-proteins/student/studen
 Then, it evaluates the trained model in terms of ROC-AUC. 
 
 #### Results of the Demo
-| **Dataset**      |   **Accuracy** | 
-|:--------------:    |:------:    |
-| **ogbn-proteins**    | 82.34     |
+| **Dataset**      |   **# Teacher Layers** |  **Accuracy** | 
+|:--------------:    |:--------------:   | :------------:    |
+| **ogbn-proteins**    | 28     | 82.34     |
 
 #### Used Hyperparameters 
 We briefly summarize the hyperparameters.
