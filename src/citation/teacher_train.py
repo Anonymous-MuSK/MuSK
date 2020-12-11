@@ -83,6 +83,7 @@ def validate():
     model.eval()
     with torch.no_grad():
         output = model(features,adj)
+        output = F.log_softmax(output, dim=1)
         loss_val = F.nll_loss(output[idx_val], labels[idx_val].to(device))
         acc_val = accuracy(output[idx_val], labels[idx_val].to(device))
         return loss_val.item(),acc_val.item()
@@ -97,6 +98,7 @@ def test():
     model.eval()
     with torch.no_grad():
         output = model(features, adj)
+        output = F.log_softmax(output, dim=1)
         loss_test = F.nll_loss(output[idx_test], labels[idx_test].to(device))
         acc_test = accuracy(output[idx_test], labels[idx_test].to(device))
         return loss_test.item(),acc_test.item()

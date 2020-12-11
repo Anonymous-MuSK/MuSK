@@ -121,7 +121,8 @@ def validate():
         # loss_CE
         t_output, t_hidden = teacher(features,adj)
         s_output, s_hidden = model(features,adj)
-        loss_CE = F.nll_loss(s_output[idx_val], labels[idx_val].to(device))
+        s_out = F.log_softmax(s_out, dim=1)
+        loss_CE = F.nll_loss(s_out[idx_val], labels[idx_val].to(device))
 
         # loss_task
         t_y = t_output[idx_val]
