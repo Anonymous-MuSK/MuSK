@@ -104,7 +104,7 @@ class GCNII(nn.Module):
             layer_inner = self.act_fn(con(layer_inner,adj,_layers[0],self.lamda,self.alpha,i+1))
         hidden_emb = F.dropout(layer_inner, self.dropout, training=self.training)
         layer_inner = self.fcs[-1](hidden_emb)
-        return F.log_softmax(layer_inner, dim=1), hidden_emb
+        return layer_inner, hidden_emb
 
 class GCNII_student(nn.Module):
     def __init__(self, nfeat, nlayers, nhidden, thidden, nclass, dropout, lamda, alpha, variant):
@@ -160,7 +160,7 @@ class GCNII_student(nn.Module):
         if self.nhidden != self.thidden:
             hidden_emb = self.match_dim(hidden_emb)
 
-        return F.log_softmax(layer_inner, dim=1), hidden_emb
+        return layer_inner, hidden_emb
 
 
 if __name__ == '__main__':

@@ -86,8 +86,9 @@ def train():
     # loss_CE
     t_output, t_hidden = teacher(features,adj)
     s_output, s_hidden = model(features,adj)
-    loss_CE = F.nll_loss(s_output[idx_train], labels[idx_train].to(device))
-    acc_train = accuracy(s_output[idx_train], labels[idx_train].to(device))
+    s_out = F.log_softmax(s_output, dim=1)
+    loss_CE = F.nll_loss(s_out[idx_train], labels[idx_train].to(device))
+    acc_train = accuracy(s_out[idx_train], labels[idx_train].to(device))
 
     # loss_task
     t_output = t_output/temperature
