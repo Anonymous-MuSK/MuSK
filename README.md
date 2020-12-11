@@ -46,7 +46,7 @@ Then, it evaluates the trained model in terms of accuracy.
 
 #### Results of the Demo
 | **Dataset**      |   **# Teacher Layers** |   **Accuracy** | 
-|:--------------:    |:------:    |------:    |
+|:--------------:    |:------:    |:------:    |
 | **Cora**    | 64     | 84.70     |
 | **Citeseer**   | 64     | 72.70     |
 | **Pubmed**         | 64     | 80.04     |
