@@ -41,7 +41,7 @@ We use the same semi-supervised setting as [GCN](https://github.com/tkipf/gcn).
 ### Simple Demo
 You can run the demo sript by `bash citation.sh`.
 It trains MuSK on Cora, Citetation, and Pubmed.
-This demo saves the trained student model at `src/citation/student/student_{DATASET}{#LAYERS}.pt`.
+This demo saves the trained student model at `src/citation/student/student_{DATASET}{#LAYERS}.pth`.
 Then, it evaluates the trained model in terms of accuracy. 
 
 #### Results of the Demo
@@ -101,7 +101,7 @@ When you first run our script, the dataset will be downloaded automatically.
 ### Simple Demo
 You can run the demo sript by `bash ogbn-proteins.sh`.
 It trains MuSK on ogbn-proteins.
-This demo saves the trained student model at `./src/ogbn-proteins/student/student_{DATASET}{#LAYERS}.pt`.
+This demo saves the trained student model at `./src/ogbn-proteins/student/student_{DATASET}{#LAYERS}.pth`.
 Then, it evaluates the trained model in terms of ROC-AUC. 
 
 #### Results of the Demo
