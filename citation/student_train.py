@@ -7,8 +7,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 import torch.optim as optim
-from utils import *
-from model import *
+from src.utils import *
+from src.model import *
 import uuid
 
 # Training settings
@@ -29,15 +29,14 @@ parser.add_argument('--alpha', type=float, default=0.1, help='alpha_l')
 parser.add_argument('--lamda', type=float, default=0.5, help='lamda.')
 parser.add_argument('--variant', action='store_true', default=False, help='GCN* model.')
 parser.add_argument('--test', action='store_true', default=False, help='evaluation on test set.')
-parser.add_argument('--lbd_pred', type=float, default=0)
-parser.add_argument('--lbd_embd', type=float, default=0)
+parser.add_argument('--lbd_pred', type=float, default=0, help='lambda for prediction loss')
+parser.add_argument('--lbd_embd', type=float, default=0, help='lambda for embedding loss')
 parser.add_argument('--kernel', default='kl', help='kernel functions: kl,lin,poly,dist,RBF')
 args = parser.parse_args()
 random.seed(args.seed)
 np.random.seed(args.seed)
 torch.manual_seed(args.seed)
 torch.cuda.manual_seed(args.seed)
-
 
 # Load data
 adj, features, labels,idx_train,idx_val,idx_test = load_citation(args.data)
@@ -48,9 +47,10 @@ adj = adj.to(device)
 t_PATH = "./teacher/teacher_"+str(args.data)+str(args.layer)+".pth"
 checkpt_file = "./student/student_"+str(args.data)+str(args.layer)+","+str(args.lbd_pred)+","+str(args.lbd_embd)+","+str(args.kernel)+".pth"
 
+# Define model
 teacher = GCNII(nfeat=features.shape[1],
                         nlayers=args.layer,
-                        nhidden=args.hidden,
+                        nhidden=args.t_hidden,
                         nclass=int(labels.max()) + 1,
                         dropout=args.dropout,
                         lamda = args.lamda,
@@ -59,8 +59,8 @@ teacher = GCNII(nfeat=features.shape[1],
 teacher.load_state_dict(torch.load(t_PATH))
 model = GCNII_student(nfeat=features.shape[1],
                 nlayers=args.layer,
-                thidden=args.hidden,
-                nhidden=args.hidden,
+                thidden=args.t_hidden,
+                nhidden=args.s_hidden,
                 nclass=int(labels.max()) + 1,
                 dropout=args.dropout,
                 lamda = args.lamda,
@@ -72,10 +72,14 @@ optimizer = optim.Adam([
                         {'params':model.params2,'weight_decay':args.wd2},
                         ],lr=args.lr)
 
-kl_loss_op = torch.nn.KLDivLoss(reduction='none')
 temperature = 2
 
 def train():
+    """
+    Start training with a stored hyperparameters on the dataset
+    :make sure teacher, student, optimizer, node features, adjacency, train index is defined aforehead
+    :return: train loss, train accuracy
+    """
     teacher.eval()
     model.train()
     optimizer.zero_grad()
@@ -86,14 +90,13 @@ def train():
     loss_CE = F.nll_loss(s_output[idx_train], labels[idx_train].to(device))
     acc_train = accuracy(s_output[idx_train], labels[idx_train].to(device))
 
-    # loss_embeddings
-    t_output = t_output / temperature
-    t_y = F.softmax(t_output[idx_train], dim=1)
-    s_y = F.log_softmax(s_output[idx_train], dim=1)
-    loss_task = kl_loss_op(s_y, t_y)
-    loss_task = torch.mean(torch.sum(loss_task, dim=1))
+    # loss_task
+    t_output = t_output/temperature
+    t_y = t_output[idx_train]
+    s_y = s_output[idx_train]
+    loss_task = kernel(t_y, s_y, 'kl')
 
-    # loss_predictions
+    # loss_hidden
     t_x = t_hidden[idx_train]
     s_x = s_hidden[idx_train]
     loss_hidden = kernel(t_x, s_x, args.kernel)
@@ -106,6 +109,11 @@ def train():
     return loss_train.item(),acc_train.item()
 
 def validate():
+    """
+    Validate the model
+    make sure teacher, student, optimizer, node features, adjacency, validation index is defined aforehead
+    :return: validation loss, validation accuracy
+    """
     teacher.eval()
     model.eval()
 
@@ -116,11 +124,9 @@ def validate():
         loss_CE = F.nll_loss(s_output[idx_val], labels[idx_val].to(device))
 
         # loss_task
-        t_output = t_output / temperature
-        t_y = F.softmax(t_output[idx_val], dim=1)
-        s_y = F.log_softmax(s_output[idx_val], dim=1)
-        loss_task = kl_loss_op(s_y, t_y)
-        loss_task = torch.mean(torch.sum(loss_task, dim=1))
+        t_y = t_output[idx_val]
+        s_y = s_output[idx_val]
+        loss_task = kernel(t_y, s_y, 'kl')
 
         # loss_hidden
         t_x = t_hidden[idx_val]
@@ -133,14 +139,19 @@ def validate():
         return loss_val.item(),acc_val.item()
 
 def test():
+    """
+    Test the model
+    make sure student, node features, adjacency, test index is defined aforehead
+    :return: test accuracy
+    """
     model.load_state_dict(torch.load(checkpt_file))
     model.eval()
     with torch.no_grad():
         output,_ = model(features, adj)
-        loss_test = F.nll_loss(output[idx_test], labels[idx_test].to(device))
         acc_test = accuracy(output[idx_test], labels[idx_test].to(device))
-        return loss_test.item(),acc_test.item()
+        return acc_test.item()
 
+# Start Training
 t_total = time.time()
 bad_counter = 0
 best = 999999999
@@ -170,7 +181,7 @@ for epoch in range(args.epochs):
         break
 
 if args.test:
-    acc = test()[1]
+    acc = test()
 
 print('The number of parameters in the student: {:04d}'.format(count_params(model)))
 print('Load {}th epoch'.format(best_epoch))

@@ -42,6 +42,7 @@ features = features.to(device)
 adj = adj.to(device)
 checkpt_file = "./teacher/teacher_"+str(args.data)+str(args.layer)+".pth"
 
+# Define model
 model = GCNII(nfeat=features.shape[1],
                 nlayers=args.layer,
                 nhidden=args.hidden,
@@ -57,6 +58,11 @@ optimizer = optim.Adam([
                         ],lr=args.lr)
 
 def train():
+    """
+    Start training with a stored hyperparameters on the dataset
+    :make sure model, optimizer, node features, adjacency, train index is defined aforehead
+    :return: train loss, train accuracy
+    """
     model.train()
     optimizer.zero_grad()
     output = model(features,adj)
@@ -68,6 +74,11 @@ def train():
 
 
 def validate():
+    """
+    Validate the model
+    make sure model, optimizer, node features, adjacency, validation index is defined aforehead
+    :return: validation loss, validation accuracy
+    """
     model.eval()
     with torch.no_grad():
         output = model(features,adj)
@@ -76,6 +87,11 @@ def validate():
         return loss_val.item(),acc_val.item()
 
 def test():
+    """
+    Test the model
+    make sure model node features, adjacency, test index is defined aforehead
+    :return: test loss, test accuracy
+    """
     model.load_state_dict(torch.load(checkpt_file))
     model.eval()
     with torch.no_grad():

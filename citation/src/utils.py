@@ -11,11 +11,20 @@ import pdb
 sys.setrecursionlimit(99999)
 
 def count_params(model):
-    """Count the number of parameters"""
+    """
+    Count the number of parameters.
+    :param model: model
+    :return: number of parameters of the model
+    """
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 def kernel(t_x, s_x, kernel):
-    """Apply kernel function and return the distance"""
+    """
+    Apply kernel function and return the distance
+    :param t_x: feature vector
+    :param s_x: feature vector
+    :return: kernel based distance between two input vectors
+    """
     dot = torch.bmm(t_x.view(t_x.size()[0], 1, t_x.size()[1]), s_x.view(s_x.size()[0], s_x.size()[1], 1)).squeeze()
     if kernel=='kl':
         kl_loss_op = torch.nn.KLDivLoss(reduction='none')
@@ -32,13 +41,22 @@ def kernel(t_x, s_x, kernel):
         return torch.mean(torch.exp(-1/2 * torch.norm(t_x-s_x, dim=1)))
 
 def accuracy(output, labels):
+    """
+    Compute accuracy
+    :param output: prediction
+    :param labels: labels
+    """
     preds = output.max(1)[1].type_as(labels)
     correct = preds.eq(labels).double()
     correct = correct.sum()
     return correct / len(labels)
 
 def normalize(mx):
-    """Row-normalize sparse matrix"""
+    """
+    Row-normalize sparse matrix
+    :param mx: matrix
+    :return: Row-normalize sparse matrix
+    """
     rowsum = np.array(mx.sum(1))
     rowsum = (rowsum==0)*1+rowsum
     r_inv = np.power(rowsum, -1).flatten()
@@ -58,7 +76,11 @@ def sys_normalized_adjacency(adj):
    return d_mat_inv_sqrt.dot(adj).dot(d_mat_inv_sqrt).tocoo()
 
 def sparse_mx_to_torch_sparse_tensor(sparse_mx):
-    """Convert a scipy sparse matrix to a torch sparse tensor."""
+    """
+    Convert a scipy sparse matrix to a torch sparse tensor.
+    :param sparse_mx: scipy sparse matrix
+    :return: torch sparse tensor
+    """
     sparse_mx = sparse_mx.tocoo().astype(np.float32)
     indices = torch.from_numpy(
         np.vstack((sparse_mx.row, sparse_mx.col)).astype(np.int64))
@@ -67,7 +89,11 @@ def sparse_mx_to_torch_sparse_tensor(sparse_mx):
     return torch.sparse.FloatTensor(indices, values, shape)
 
 def parse_index_file(filename):
-    """Parse index file."""
+    """
+    Parse index file.
+    :param filename: file name
+    :return: parsed index
+    """
     index = []
     for line in open(filename):
         index.append(int(line.strip()))
@@ -81,14 +107,14 @@ def load_citation(dataset_str="cora"):
     names = ['x', 'y', 'tx', 'ty', 'allx', 'ally', 'graph']
     objects = []
     for i in range(len(names)):
-        with open("../data/ind.{}.{}".format(dataset_str.lower(), names[i]), 'rb') as f:
+        with open("data/ind.{}.{}".format(dataset_str.lower(), names[i]), 'rb') as f:
             if sys.version_info > (3, 0):
                 objects.append(pkl.load(f, encoding='latin1'))
             else:
                 objects.append(pkl.load(f))
 
     x, y, tx, ty, allx, ally, graph = tuple(objects)
-    test_idx_reorder = parse_index_file("../data/ind.{}.test.index".format(dataset_str))
+    test_idx_reorder = parse_index_file("data/ind.{}.test.index".format(dataset_str))
     test_idx_range = np.sort(test_idx_reorder)
 
     if dataset_str == 'citeseer':
@@ -126,14 +152,11 @@ def load_citation(dataset_str="cora"):
     adj = sparse_mx_to_torch_sparse_tensor(adj)
     return adj, features, labels, idx_train, idx_val, idx_test
 
-
 # adapted from PetarV/GAT
 def run_dfs(adj, msk, u, ind, nb_nodes):
     if msk[u] == -1:
         msk[u] = ind
-        #for v in range(nb_nodes):
         for v in adj[u,:].nonzero()[1]:
-            #if adj[u,v]== 1:
             run_dfs(adj, msk, v, ind, nb_nodes)
 
 def dfs_split(adj):
@@ -153,10 +176,8 @@ def dfs_split(adj):
 def test(adj, mapping):
     nb_nodes = adj.shape[0]
     for i in range(nb_nodes):
-        #for j in range(nb_nodes):
         for j in adj[i, :].nonzero()[1]:
             if mapping[i] != mapping[j]:
-              #  if adj[i,j] == 1:
                  return False
     return True
 
@@ -164,7 +185,6 @@ def find_split(adj, mapping, ds_label):
     nb_nodes = adj.shape[0]
     dict_splits={}
     for i in range(nb_nodes):
-        #for j in range(nb_nodes):
         for j in adj[i, :].nonzero()[1]:
             if mapping[i]==0 or mapping[j]==0:
                 dict_splits[0]=None
@@ -201,7 +221,6 @@ def load_ppi():
     print ('Loading G...')
     with open('ppi/ppi-G.json') as jsonfile:
         g_data = json.load(jsonfile)
-    # print (len(g_data))
     G = json_graph.node_link_graph(g_data)
 
     #Extracting adjacency matrix
@@ -210,22 +229,17 @@ def load_ppi():
     prev_key=''
     for key, value in g_data.items():
         if prev_key!=key:
-            # print (key)
             prev_key=key
 
-    # print ('Loading id_map...')
     with open('ppi/ppi-id_map.json') as jsonfile:
         id_map = json.load(jsonfile)
-    # print (len(id_map))
 
     id_map = {int(k):int(v) for k,v in id_map.items()}
     for key, value in id_map.items():
         id_map[key]=[value]
-    # print (len(id_map))
 
     print ('Loading features...')
     features_=np.load('ppi/ppi-feats.npy')
-    # print (features_.shape)
 
     #standarizing features
     from sklearn.preprocessing import StandardScaler
@@ -243,15 +257,11 @@ def load_ppi():
     class_map = {}
     with open('ppi/ppi-class_map.json') as jsonfile:
         class_map = json.load(jsonfile)
-    # print (len(class_map))
 
-    #pdb.set_trace()
     #Split graph into sub-graphs
-    # print ('Splitting graph...')
     splits=dfs_split(adj)
 
     #Rearrange sub-graph index and append sub-graphs with 1 or 2 nodes to bigger sub-graphs
-    # print ('Re-arranging sub-graph IDs...')
     list_splits=splits.tolist()
     group_inc=1
 
@@ -260,7 +270,6 @@ def load_ppi():
             splits[np.array(list_splits) == i] =group_inc
             group_inc+=1
         else:
-            #splits[np.array(list_splits) == i] = 0
             ind_nodes=np.argwhere(np.array(list_splits) == i)
             ind_nodes=ind_nodes[:,0].tolist()
             split=None
@@ -361,10 +370,8 @@ def load_ppi():
     train_nodes=np.array(nodes_per_graph[train_split[0]:train_split[-1]+1])
     val_nodes = np.array(nodes_per_graph[val_split[0]:val_split[-1]+1])
     test_nodes = np.array(nodes_per_graph[test_split[0]:test_split[-1]+1])
-
-
+    
     #Masks with ones
-
     tr_msk = np.zeros((len(nodes_per_graph[train_split[0]:train_split[-1]+1]), subgraph_nodes))
     vl_msk = np.zeros((len(nodes_per_graph[val_split[0]:val_split[-1] + 1]), subgraph_nodes))
     ts_msk = np.zeros((len(nodes_per_graph[test_split[0]:test_split[-1]+1]), subgraph_nodes))

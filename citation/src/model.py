@@ -7,6 +7,14 @@ from torch.nn.parameter import Parameter
 
 class GraphConvolution(nn.Module):
     def __init__(self, in_features, out_features, residual=False, variant=False):
+        """
+        Construct GCNII layer
+
+        :param in_features: input dimension
+        :param out_features: output dimension
+        :param residual: ratio of residual connection
+        :param variant: variant version introduced in GCNII
+        """
         super(GraphConvolution, self).__init__()
         self.variant = variant
         if self.variant:
@@ -20,10 +28,24 @@ class GraphConvolution(nn.Module):
         self.reset_parameters()
 
     def reset_parameters(self):
+        """
+        Reset parameters
+        
+        :return: none
+        """
         stdv = 1. / math.sqrt(self.out_features)
         self.weight.data.uniform_(-stdv, stdv)
 
     def forward(self, input, adj , h0 , lamda, alpha, l):
+        """
+        Compute a GCNII layer
+        
+        :param input: input feature
+        :param adj: adjacency matrix
+        :param lamda: ratio of lamda
+        :param alpha: alpha
+        :param l: l^{th} layer in an overall model
+        """
         theta = math.log(lamda/l+1)
         hi = torch.spmm(adj, input)
         if self.variant:
@@ -38,7 +60,19 @@ class GraphConvolution(nn.Module):
         return output
 
 class GCNII(nn.Module):
-    def __init__(self, nfeat, nlayers,nhidden, nclass, dropout, lamda, alpha, variant):
+    def __init__(self, nfeat, nlayers, nhidden, nclass, dropout, lamda, alpha, variant):
+        """
+        Constructor of GCNII teacher model
+
+        :param nfeat: input dimension
+        :param nlayers: number of layers
+        :param nhidden: hidden feature dimension
+        :param nclass: number of output class
+        :param dropout: ratio of dropout
+        :param lamda: ratio of lamda
+        :param alpha: alpha
+        :param variant: variant version introduced in GCNII
+        """
         super(GCNII, self).__init__()
         self.convs = nn.ModuleList()
         for _ in range(nlayers):
@@ -54,6 +88,13 @@ class GCNII(nn.Module):
         self.lamda = lamda
 
     def forward(self, x, adj):
+        """
+        Forward x into class
+
+        :param x: input node features
+        :param adj: adjacency matrix
+        :return: task prediction, last hidden embedding
+        """
         _layers = []
         x = F.dropout(x, self.dropout, training=self.training)
         layer_inner = self.act_fn(self.fcs[0](x))
@@ -65,9 +106,21 @@ class GCNII(nn.Module):
         layer_inner = self.fcs[-1](hidden_emb)
         return F.log_softmax(layer_inner, dim=1), hidden_emb
 
-
 class GCNII_student(nn.Module):
     def __init__(self, nfeat, nlayers, nhidden, thidden, nclass, dropout, lamda, alpha, variant):
+        """
+        Constructor of GCNII student model
+
+        :param nfeat: input dimension
+        :param nlayers: number of layers
+        :param nhidden: student's hidden feature dimension
+        :param thidden: teacher's hidden feature dimension
+        :param nclass: number of output class
+        :param dropout: ratio of dropout
+        :param dropout: ratio of lamda
+        :param alpha: alpha
+        :param variant: variant version introduced in GCNII
+        """
         super(GCNII_student, self).__init__()
         self.convs = nn.ModuleList()
         self.convs.append(GraphConvolution(nhidden, nhidden,variant=variant))
@@ -88,6 +141,13 @@ class GCNII_student(nn.Module):
             self.match_dim = nn.Linear(nhidden, thidden)
 
     def forward(self, x, adj):
+        """
+        Forward x into class
+
+        :param x: input node features
+        :param adj: adjacency matrix
+        :return: task prediction, last hidden embedding
+        """
         _layers = []
         x = F.dropout(x, self.dropout, training=self.training)
         layer_inner = self.act_fn(self.fcs[0](x))

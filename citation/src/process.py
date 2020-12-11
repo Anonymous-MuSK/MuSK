@@ -15,21 +15,33 @@ import scipy.sparse as sp
 #adapted from geom-gcn
 
 def parse_index_file(filename):
-    """Parse index file."""
+    """
+    Parse index file.
+    :param filename: filename
+    :return: index
+    """
     index = []
     for line in open(filename):
         index.append(int(line.strip()))
     return index
 
-
 def sample_mask(idx, l):
-    """Create mask."""
+    """
+    Create mask.
+    :param idx: index for masking
+    :param l: length of the mask
+    :return: mask
+    """
     mask = np.zeros(l)
     mask[idx] = 1
     return np.array(mask, dtype=np.bool)
 
-
 def full_load_citation(dataset_str):
+    """
+    Load citation dataset.
+    :param dataset_str: Cora, Citeseer, Pubmed
+    :return: adjacency, node features, node labels, train_mask, val_mask, test_mask
+    """
     names = ['x', 'y', 'tx', 'ty', 'allx', 'ally', 'graph']
     objects = []
     for i in range(len(names)):
@@ -78,9 +90,12 @@ def full_load_citation(dataset_str):
 
     return adj, features, labels, train_mask, val_mask, test_mask
 
-
 def preprocess_features(features):
-    """Row-normalize feature matrix and convert to tuple representation"""
+    """
+    Row-normalize feature matrix and convert to tuple representation
+    :param features: node features
+    :return: preprocessed features
+    """
     rowsum = np.array(features.sum(1))
     rowsum = (rowsum==0)*1+rowsum
     r_inv = np.power(rowsum, -1).flatten()
@@ -90,6 +105,12 @@ def preprocess_features(features):
     return features
 
 def full_load_data(dataset_name, splits_file_path=None):
+    """
+    Load full data
+    :param dataset_name: name of dataset
+    :param splits_file_path: if splitted aforehead, path
+    :return: graph in nx, node features, node labels, train_mask, val_mask, test_mask, number of features, number of labels
+    """
     if dataset_name in {'cora', 'citeseer', 'pubmed'}:
         adj, features, labels, _, _, _ = full_load_citation(dataset_name)
         labels = np.argmax(labels, axis=-1)
@@ -103,7 +124,6 @@ def full_load_data(dataset_name, splits_file_path=None):
         G = nx.DiGraph()
         graph_node_features_dict = {}
         graph_labels_dict = {}
-
 
         with open(graph_node_features_and_labels_file_path) as graph_node_features_and_labels_file:
             graph_node_features_and_labels_file.readline()
