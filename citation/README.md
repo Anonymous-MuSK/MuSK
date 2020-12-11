@@ -13,7 +13,7 @@ We use the same semi-supervised setting as [GCN](https://github.com/tkipf/gcn)
 ## Simple Demo
 You can run the demo sript by `bash demo.sh`.
 It trains MuSK on Cora, Citetation, Pubmed.
-This demo saves the trained model at `./student/teacher_{DATASET}{#LAYERS}.pt`.
+This demo saves the trained model at `./student/student_{DATASET}{#LAYERS}.pt`.
 Then, it evaluates the trained model in terms of accuracy. 
 
 ## Results of MuSK using Pre-trained Teacher
