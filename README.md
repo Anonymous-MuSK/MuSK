@@ -45,7 +45,7 @@ This demo saves the trained student model at `src/citation/student/student_{DATA
 Then, it evaluates the trained model in terms of accuracy. 
 
 #### Results of the Demo
-| **Dataset**      |   **# Teacher Layers** |   **Accuracy** | 
+| **Dataset**      |   **Teacher Layers** |   **Accuracy** | 
 |:--------------:    |:------:    |:------:    |
 | **Cora**    | 64     | 84.70     |
 | **Citeseer**   | 64     | 72.70     |
@@ -105,7 +105,7 @@ This demo saves the trained student model at `./src/ogbn-proteins/student/studen
 Then, it evaluates the trained model in terms of ROC-AUC. 
 
 #### Results of the Demo
-| **Dataset**      |   **# Teacher Layers** |  **Accuracy** | 
+| **Dataset**      |   **Teacher Layers** |  **Accuracy** | 
 |:--------------:    |:--------------:   | :------------:    |
 | **ogbn-proteins**    | 28     | 82.34     |
 
