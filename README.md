@@ -17,9 +17,9 @@ The `data` folder contains three benchmark datasets(Cora, Citeseer, Pubmed)
 We use the same semi-supervised setting as [GCN](https://github.com/tkipf/gcn)
 
 ## Simple Demo
-You can run the demo sript by `bash demo.sh`.
-It trains MuSK on Cora, Citetation, Pubmed.
-This demo saves the trained model at `./student/student_{DATASET}{#LAYERS}.pt`.
+You can run the demo sript by `bash citation.sh`.
+It trains MuSK on Cora, Citetation, and Pubmed.
+This demo saves the trained student model at `./student/student_{DATASET}{#LAYERS}.pt`.
 Then, it evaluates the trained model in terms of accuracy. 
 
 ## Results of MuSK using Pre-trained Teacher
@@ -78,11 +78,11 @@ Codes are written based on [GCNII](https://github.com/chennnM/GCNII)
 We use the [ogbn-proteins dataset](https://ogb.stanford.edu/docs/nodeprop/).
 When you first run our script, the dataset will be downloaded automatically.
 
-## Usage
-To reproduce the results, run the following script.
-```sh
-python s_train.py
-```
+## Simple Demo
+You can run the demo sript by `bash ogbn-proteins.sh`.
+It trains MuSK on ogbn-proteins.
+This demo saves the trained student model at `./student/student_{DATASET}{#LAYERS}.pt`.
+Then, it evaluates the trained model in terms of accuracy. 
 
 ## Reference implementation
 Codes are written based on [deeperGCN](https://github.com/lightaime/deep_gcns_torch) and pytorch-geometric (https://github.com/rusty1s/pytorch_geometric)
