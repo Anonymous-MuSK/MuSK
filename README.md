@@ -107,7 +107,7 @@ This demo saves the trained student model at `./src/ogbn-proteins/student/studen
 Then, it evaluates the trained model in terms of ROC-AUC. 
 
 #### Results of the Demo
-| **Dataset**      |   **Teacher Layers** |  **Accuracy** | 
+| **Dataset**      |   **Teacher Layers** |  **ROC-AUC** | 
 |:--------------:    |:--------------:   | :------------:    |
 | **ogbn-proteins**    | 28     | 82.34     |
 
