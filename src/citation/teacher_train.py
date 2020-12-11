@@ -66,6 +66,7 @@ def train():
     model.train()
     optimizer.zero_grad()
     output = model(features,adj)
+    output = F.log_softmax(output, dim=1)
     acc_train = accuracy(output[idx_train], labels[idx_train].to(device))
     loss_train = F.nll_loss(output[idx_train], labels[idx_train].to(device))
     loss_train.backward()
