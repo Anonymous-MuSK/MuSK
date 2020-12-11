@@ -4,25 +4,25 @@ Given a trained deep Graph Convolution Network (GCN), how can we effectively com
 We propose MuSK, a novel approach for compressing deep GCNs through distilling the knowledge of the aggregation from multi-staged GCN layers as well as task prediction. MuSK compresses the deep teacher layers without losing the concept of multi-hop feature aggregation process with a single effective layer in the student. Extensive experiments show that MuSK achieves state-of-the-art performance among other KD based methods while requiring up to 11.4× fewer parameters than the teacher.
 
 
-# Citation dataset
+## Citation dataset
 
-## Dependencies
+### Dependencies
 - CUDA 10.1
 - python 3.6.8
 - pytorch 1.7.0
 - torch-geometric 1.6.1
 
-## Datasets
+### Datasets
 The `data` folder contains three benchmark datasets(Cora, Citeseer, Pubmed)
 We use the same semi-supervised setting as [GCN](https://github.com/tkipf/gcn)
 
-## Simple Demo
+### Simple Demo
 You can run the demo sript by `bash citation.sh`.
 It trains MuSK on Cora, Citetation, and Pubmed.
 This demo saves the trained student model at `./student/student_{DATASET}{#LAYERS}.pt`.
 Then, it evaluates the trained model in terms of accuracy. 
 
-## Results of MuSK using Pre-trained Teacher
+### Results of MuSK using Pre-trained Teacher
 The experimental results with the pre-trained teachers are as follows:
 
 | **Dataset**      |   **Accuracy** |
@@ -31,7 +31,7 @@ The experimental results with the pre-trained teachers are as follows:
 | **Citeseer**   | 72.41     |
 | **Pubmed**         | 79.90     |
 
-### Used Hyperparameters 
+#### Used Hyperparameters 
 We briefly summarize the hyperparameters.
 
 * Hyperparameters of MuSK
@@ -47,7 +47,7 @@ We briefly summarize the hyperparameters.
     - `lbd_embd`: lambda for the embedding loss
     - `kernel`: kernel function
 
-### How to Reproduce the Above Results with the Pre-trained teachers
+#### How to Reproduce the Above Results with the Pre-trained teachers
 You can reproduce the results with the following command which evaluates a test dataset using a pre-trained model. 
 ```shell
 python -u student_train.py --data cora --layer 64 --test --lbd_pred 1 --lbd_embd 0.01 --kernel kl
@@ -62,27 +62,27 @@ python -u teacher_train.py --data citeseer --layer 64 --hidden 256 --lamda 0.6 -
 python -u teacher_train.py --data pubmed --layer 64 --hidden 256 --lamda 0.4 --dropout 0.5 --wd1 5e-4 --test
 ```
 
-## Reference implementation
+### Reference implementation
 Codes are written based on [GCNII](https://github.com/chennnM/GCNII)
 
 
-# ogbn-proteins dataset
+## ogbn-proteins dataset
 
-## Dependencies
+### Dependencies
 - CUDA 10.0
 - python 3.6.8
 - pytorch 1.4.0
 - torch-geometric 1.6.0
 
-## Datasets
+### Datasets
 We use the [ogbn-proteins dataset](https://ogb.stanford.edu/docs/nodeprop/).
 When you first run our script, the dataset will be downloaded automatically.
 
-## Simple Demo
+### Simple Demo
 You can run the demo sript by `bash ogbn-proteins.sh`.
 It trains MuSK on ogbn-proteins.
 This demo saves the trained student model at `./student/student_{DATASET}{#LAYERS}.pt`.
 Then, it evaluates the trained model in terms of accuracy. 
 
-## Reference implementation
+### Reference implementation
 Codes are written based on [deeperGCN](https://github.com/lightaime/deep_gcns_torch) and pytorch-geometric (https://github.com/rusty1s/pytorch_geometric)
