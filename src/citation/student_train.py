@@ -44,8 +44,8 @@ cudaid = "cuda:"+str(args.dev)
 device = torch.device(cudaid)
 features = features.to(device)
 adj = adj.to(device)
-t_PATH = "./teacher/teacher_"+str(args.data)+str(args.layer)+".pth"
-checkpt_file = "./student/student_"+str(args.data)+str(args.layer)+".pth"
+t_PATH = "./src/citation/teacher/teacher_"+str(args.data)+str(args.layer)+".pth"
+checkpt_file = "./src/citation/student/student_"+str(args.data)+str(args.layer)+".pth"
 
 # Define model
 teacher = GCNII(nfeat=features.shape[1],

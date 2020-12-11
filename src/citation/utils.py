@@ -13,7 +13,7 @@ sys.setrecursionlimit(99999)
 def count_params(model):
     """
     Count the number of parameters.
-    
+
     :param model: model
     :return: number of parameters of the model
     """
@@ -22,7 +22,7 @@ def count_params(model):
 def kernel(t_x, s_x, kernel):
     """
     Apply kernel function and return the distance
-    
+
     :param t_x: feature vector
     :param s_x: feature vector
     :return: kernel based distance between two input vectors
@@ -45,7 +45,7 @@ def kernel(t_x, s_x, kernel):
 def accuracy(output, labels):
     """
     Compute accuracy
-    
+
     :param output: prediction
     :param labels: labels
     """
@@ -57,7 +57,7 @@ def accuracy(output, labels):
 def normalize(mx):
     """
     Row-normalize sparse matrix
-    
+
     :param mx: matrix
     :return: Row-normalize sparse matrix
     """
@@ -82,7 +82,7 @@ def sys_normalized_adjacency(adj):
 def sparse_mx_to_torch_sparse_tensor(sparse_mx):
     """
     Convert a scipy sparse matrix to a torch sparse tensor.
-    
+
     :param sparse_mx: scipy sparse matrix
     :return: torch sparse tensor
     """
@@ -96,7 +96,7 @@ def sparse_mx_to_torch_sparse_tensor(sparse_mx):
 def parse_index_file(filename):
     """
     Parse index file.
-    
+
     :param filename: file name
     :return: parsed index
     """
@@ -113,14 +113,14 @@ def load_citation(dataset_str="cora"):
     names = ['x', 'y', 'tx', 'ty', 'allx', 'ally', 'graph']
     objects = []
     for i in range(len(names)):
-        with open(".../data/citation/ind.{}.{}".format(dataset_str.lower(), names[i]), 'rb') as f:
+        with open("./data/citation/ind.{}.{}".format(dataset_str.lower(), names[i]), 'rb') as f:
             if sys.version_info > (3, 0):
                 objects.append(pkl.load(f, encoding='latin1'))
             else:
                 objects.append(pkl.load(f))
 
     x, y, tx, ty, allx, ally, graph = tuple(objects)
-    test_idx_reorder = parse_index_file(".../data/citation/ind.{}.test.index".format(dataset_str))
+    test_idx_reorder = parse_index_file("./data/citation/ind.{}.test.index".format(dataset_str))
     test_idx_range = np.sort(test_idx_reorder)
 
     if dataset_str == 'citeseer':
@@ -376,7 +376,7 @@ def load_ppi():
     train_nodes=np.array(nodes_per_graph[train_split[0]:train_split[-1]+1])
     val_nodes = np.array(nodes_per_graph[val_split[0]:val_split[-1]+1])
     test_nodes = np.array(nodes_per_graph[test_split[0]:test_split[-1]+1])
-    
+
     #Masks with ones
     tr_msk = np.zeros((len(nodes_per_graph[train_split[0]:train_split[-1]+1]), subgraph_nodes))
     vl_msk = np.zeros((len(nodes_per_graph[val_split[0]:val_split[-1] + 1]), subgraph_nodes))
