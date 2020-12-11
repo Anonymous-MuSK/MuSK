@@ -11,19 +11,19 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 3. **Distilling Knowledge of Predictions**: The distillation of task prediction guides the student to obtain similar predictive outputs as the teacher.
 
 ## Code Description
-- src/citation/model.py: Model architecture of GCNII
-- src/citation/process.py: Processing functions used on training
-- src/citation/utils.py: Utility functions for GCNII
-- src/citation/student_train.py: Trains a student GCNII model
-- src/citation/teacher_train.py: Trains a teacher GCNII model
-- src/citation/teacher: Pre-trained teacher model path for citation dataset
-- src/citation/student: Student model path for citation dataset
-- src/ogbn-proteins/model.py: Model architecture of GEN
-- src/ogbn-proteins/utils.py: Utility functions for GEN
-- src/ogbn-proteins/student_train.py: Trains a student GEN model
-- src/ogbn-proteins/teacher_train.py: Trains a teacher GEN model
-- src/ogbn-proteins/student: Pre-trained teacher model path for ogbn-proteins
-- src/ogbn-proteins/teacher: Student model path for ogbn-proteins
+- `src/citation/model.py`: Model architecture of GCNII
+- `src/citation/process.py`: Processing functions used on training
+- `src/citation/utils.py`: Utility functions for GCNII
+- `src/citation/student_train.py`: Trains a student GCNII model
+- `src/citation/teacher_train.py`: Trains a teacher GCNII model
+- `src/citation/teacher`: Pre-trained teacher model path for citation dataset
+- `src/citation/student`: Student model path for citation dataset
+- `src/ogbn-proteins/model.py`: Model architecture of GEN
+- `src/ogbn-proteins/utils.py`: Utility functions for GEN
+- `src/ogbn-proteins/student_train.py`: Trains a student GEN model
+- `src/ogbn-proteins/teacher_train.py`: Trains a teacher GEN model
+- `src/ogbn-proteins/teacher`: Pre-trained teacher model path for ogbn-proteins
+- `src/ogbn-proteins/student`: Student model path for ogbn-proteins
 
 
 ## Citation dataset
