@@ -109,7 +109,7 @@ Then, it evaluates the trained model in terms of ROC-AUC.
 #### Results of the Demo
 | **Dataset**      |   **Teacher Layers** |  **ROC-AUC** | 
 |:--------------:    |:--------------:   | :------------:    |
-| **ogbn-proteins**    | 28     | 82.34     |
+| **ogbn-proteins**    | 28     | 0.823     |
 
 #### Used Hyperparameters 
 We briefly summarize the hyperparameters.
