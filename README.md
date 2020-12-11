@@ -4,7 +4,7 @@ Given a trained deep Graph Convolution Network (GCN), how can we effectively com
 We propose MuSK, a novel approach for compressing deep GCNs through distilling the knowledge of the aggregation from multi-staged GCN layers as well as task prediction. MuSK compresses the deep teacher layers without losing the concept of multi-hop feature aggregation process with a single effective layer in the student. Extensive experiments show that MuSK achieves state-of-the-art performance among other KD based methods while requiring up to 11.4× fewer parameters than the teacher.
 
 ## Overview
-![overview](/Users/hony/Desktop/OVERVIEW.pdf)
+![overview](./src/OVERVIEW.pdf)
 1. **Preserving Multi-hop Feature Aggregation**: MuSK preserves the feature aggregation procedure of deep GCN layers of the teacher in a single effective GCN layer of a student.
 2. **Distilling Knowledge from Trained Deep GCNs**: MuSK distills the last hidden embeddings after K-hop aggregations of the teacher into the student. This distillation guides the student to follow the teacher’s behavior more carefully.
 3. **Distilling Knowledge of Predictions**: The distillation of task prediction guides the student to obtain similar predictive outputs as the teacher.
