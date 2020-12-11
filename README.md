@@ -60,7 +60,7 @@ We briefly summarize the hyperparameters.
     - `kernel`: kernel function
 
 #### Detailed Usage
-You can reproduce results with the following command which evaluates a test dataset using a pre-trained model. 
+You can reproduce results with the following command.
 ```shell
 python -u src/citation/student_train.py --data cora --layer 64 --test --lbd_pred 1 --lbd_embd 0.01 --kernel kl
 python -u src/citation/student_train.py --data citeseer --layer 64 --t_hidden 256 --s_hidden 256 --lamda 0.6 --dropout 0.7 --test --lbd_pred 0.1 --lbd_embd 0.01 --kernel kl
@@ -109,7 +109,7 @@ We briefly summarize the hyperparameters.
     - `test_bn`: test batch number
 
 #### Detailed Usage
-You can reproduce results with the following command which evaluates a test dataset using a pre-trained model. 
+You can reproduce results with the following command.
 ```shell
 python src/ogbn-proteins/teaecher_train.py --lbd_pred 0.1 --lbd_embd 0.01 --hidden 64 --layer 28 --train_bn 40 --test_bn 5
 ```
