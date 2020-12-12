@@ -102,7 +102,7 @@ Codes are written based on [GCNII](https://github.com/chennnM/GCNII).
 ### Simple Demo
 You can run the demo sript in ogbn-proteins by `bash ogbn-proteins.sh`.
 It trains MuSK on ogbn-proteins.
-This demo loads a pre-trained teacher model from `src/ogbn-proteins/teacher/teacher_ogbn-proteins{#LAYERS}.pth` and saves the trained student model at `./src/ogbn-proteins/student/student_ogbn-proteins{#LAYERS}.pth`.
+This demo loads a pre-trained teacher model from `src/ogbn-proteins/teacher/teacher_ogbn{#LAYERS}.pth` and saves the trained student model at `./src/ogbn-proteins/student/student_ogbn{#LAYERS}.pth`.
 Then, it evaluates the trained model in terms of ROC-AUC. 
 - `{#LAYERS}`: The number of layers in the teacher model.
 
