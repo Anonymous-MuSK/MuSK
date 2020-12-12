@@ -36,7 +36,7 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 - We load three citation benchmark datasets (Cora, Citeseer, and Pubmed). In our version, we use dataset splits provided by [Revisiting Semi-Supervised Learning with Graph Embeddings](https://github.com/kimiyoung/planetoid).
 - We load the ogbn-proteins dataset from [https://ogb.stanford.edu/docs/nodeprop/](https://ogb.stanford.edu/docs/nodeprop/). When you first run our script, the dataset will be downloaded automatically.
 
-## Citation dataset
+## Citation Dataset
 
 ### Dependencies
 - CUDA 10.1
@@ -89,11 +89,11 @@ python -u src/citation/teacher_train.py --data citeseer --layer 64 --hidden 256 
 python -u src/citation/teacher_train.py --data pubmed --layer 64 --hidden 256 --lamda 0.4 --dropout 0.5 --wd1 5e-4 --test
 ```
 
-### Reference implementation
+### Reference Implementation
 Codes are written based on [GCNII](https://github.com/chennnM/GCNII).
 
 
-## ogbn-proteins dataset
+## ogbn-proteins Dataset
 
 ### Dependencies
 - CUDA 10.0
@@ -137,5 +137,5 @@ python src/ogbn-proteins/teacher_train.py --lbd_pred 0.1 --lbd_embd 0.01 --hidde
 ```
 
 
-### Reference implementation
+### Reference Implementation
 Codes are written based on [deeperGCN](https://github.com/lightaime/deep_gcns_torch) and pytorch-geometric (https://github.com/rusty1s/pytorch_geometric).
