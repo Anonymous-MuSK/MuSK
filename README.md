@@ -25,6 +25,16 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 - `src/ogbn-proteins/teacher`: Pre-trained teacher model path for ogbn-proteins
 - `src/ogbn-proteins/student`: Student model path for ogbn-proteins
 
+## Data Overview
+| **Dataset**      |                            **Path**                       | 
+|:--------------:    |                          :----------:                      | 
+|   **Cora**         |   `data/citation/ind.cora`   | 
+| **Citeseer**     |    `data/citation/ind.citeseer`  | 
+| **Pubmed**     | `data/citation/ind.pubmed`     | 
+| **ogbn-proteins**     | `data/ogbn_proteins_pyg`  |  
+
+- We load three citation benchmark datasets (Cora, Citeseer, and Pubmed). In our version, we use dataset splits provided by Revisiting [Semi-Supervised Learning with Graph Embeddings](https://github.com/kimiyoung/planetoid).
+- We load the ogbn-proteins dataset from [https://ogb.stanford.edu/docs/nodeprop/](https://ogb.stanford.edu/docs/nodeprop/). When you first run our script, the dataset will be downloaded automatically.
 
 ## Citation dataset
 
@@ -34,13 +44,9 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 - pytorch 1.7.0
 - torch-geometric 1.6.1
 
-### Datasets
-The `data` folder contains three benchmark datasets(Cora, Citeseer, Pubmed)
-We use the same semi-supervised setting as [GCN](https://github.com/tkipf/gcn).
-
 ### Simple Demo
 You can run the demo sript by `bash citation.sh`.
-It trains MuSK on Cora, Citetation, and Pubmed.
+It trains MuSK on Cora, Citeseer, and Pubmed.
 This demo saves the trained student model at `src/citation/student/student_{DATASET}{#LAYERS}.pth`.
 Then, it evaluates the trained model in terms of accuracy. 
 - `{DATASET}`: Cora, Citeseer, Pubmed
@@ -95,10 +101,7 @@ Codes are written based on [GCNII](https://github.com/chennnM/GCNII)
 - python 3.6.8
 - pytorch 1.4.0
 - torch-geometric 1.6.0
-
-### Datasets
-We use the [ogbn-proteins dataset](https://ogb.stanford.edu/docs/nodeprop/).
-When you first run our script, the dataset will be downloaded automatically.
+- ogb >= 1.1.1
 
 ### Simple Demo
 You can run the demo sript by `bash ogbn-proteins.sh`.
