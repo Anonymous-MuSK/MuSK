@@ -100,7 +100,7 @@ Codes are written based on [GCNII](https://github.com/chennnM/GCNII).
 - python 3.6.8
 - pytorch 1.4.0
 - torch-geometric 1.6.0
-- ogb >= 1.1.1
+- ogb 1.1.1
 
 ### Simple Demo
 You can run the demo sript by `bash ogbn-proteins.sh`.
