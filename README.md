@@ -35,7 +35,7 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 
 - We load three citation benchmark datasets (Cora, Citeseer, and Pubmed).  The original datasets can be downloaded from [http://www.cs.umd.edu/~sen/lbc-proj/LBC.html](http://www.cs.umd.edu/~sen/lbc-proj/LBC.html).
     In our version, we use dataset splits provided by [Revisiting Semi-Supervised Learning with Graph Embeddings](https://github.com/kimiyoung/planetoid).
-- We load the ogbn-proteins dataset from [https://ogb.stanford.edu/docs/nodeprop/](https://ogb.stanford.edu/docs/nodeprop/). When you first run our script, the dataset will be downloaded automatically.
+- We load the ogbn-proteins dataset from [https://ogb.stanford.edu/docs/nodeprop/](https://ogb.stanford.edu/docs/nodeprop/). When you first run our script, the dataset will be downloaded automatically. We use dataset splits provided by [DeeperGCN: All You Need to Train Deeper GCNs](https://github.com/lightaime/deep_gcns_torch/tree/master/examples/ogb).
 
 ## Citation Dataset
 
