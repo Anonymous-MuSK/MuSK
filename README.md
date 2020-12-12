@@ -69,7 +69,7 @@ We briefly summarize the hyperparameters.
     - `test`: evaluation on test dataset.
     - `t_hidden`: teacher's hidden feature dimension.
     - `s_hidden`: student's hidden feature dimension.
-    - `lamda`: lamda in GCNII.
+    - `lamda`: lambda in GCNII.
     - `dropout`: ratio of dropout.
     - `lbd_pred`: lambda for the prediction loss.
     - `lbd_embd`: lambda for the embedding loss.
