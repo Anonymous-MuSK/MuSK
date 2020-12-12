@@ -22,8 +22,8 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 - `src/ogbn-proteins/utils.py`: Utility functions for GEN.
 - `src/ogbn-proteins/student_train.py`: Trains a student GEN model.
 - `src/ogbn-proteins/teacher_train.py`: Trains a teacher GEN model.
-- `src/ogbn-proteins/teacher`: Path for pre-trained teacher model in ogbn-proteins dataset.
-- `src/ogbn-proteins/student`: Path for student model in ogbn-proteins dataset.
+- `src/ogbn-proteins/teacher`: Path for pre-trained teacher models in ogbn-proteins dataset.
+- `src/ogbn-proteins/student`: Path for student models in ogbn-proteins dataset.
 
 ## Data Overview
 | **Dataset**      |                            **Path**                       | 
