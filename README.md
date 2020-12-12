@@ -1,4 +1,4 @@
-# MuSK: Multi-Staged Knowledge distilltation
+# Compressing Deep Graph Convolution Network with Multi-Staged Knowledge Distillation
 
 ## Abstract
 Given a trained deep Graph Convolution Network (GCN), how can we effectively compress it into a compact network without significant loss of accuracy? Though many deep GCN models improved their performance by considering multi-hop features in graphs, it is difficult to use them in environments having limited computing resources such as mobile or embedded systems. Therefore, it is important to compress large GCN models into a compact GCN model. Knowledge Distillation (KD) is an actively pursued area of research to learn a compressed student model from a teacher model. However, existing KD methods do not preserve the multi-hop aggregation of deep GCN models.
