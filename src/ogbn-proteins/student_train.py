@@ -55,8 +55,8 @@ t_optimizer = torch.optim.Adam(t_model.parameters(), lr=0.01)
 s_optimizer = torch.optim.Adam(s_model.parameters(), lr=0.01)
 criterion = torch.nn.BCEWithLogitsLoss()
 evaluator = Evaluator('ogbn-proteins')
-t_PATH = "./teacher/teacher_ogbn" + str(args.layer) + ".pth"
-s_PATH = "./student/student_ogbn" + str(args.layer) + ".pth"
+t_PATH = "./src/ogbn-proteins/teacher/teacher_ogbn" + str(args.layer) + ".pth"
+s_PATH = "./src/ogbn-proteins/student/student_ogbn" + str(args.layer) + ".pth"
 
 
 def train_student_model(t_model, epoch):
