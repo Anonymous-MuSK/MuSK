@@ -47,10 +47,10 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 ### Simple Demo
 You can run the demo sript by `bash citation.sh`.
 It trains MuSK on Cora, Citeseer, and Pubmed.
-This demo saves the trained student model at `src/citation/student/student_{DATASET}{#LAYERS}.pth`.
+This demo loads a pre-trained teacher model from `src/citation/teacher/teacher_{DATASET}{#LAYERS}.pth` and saves the trained student model at `src/citation/student/student_{DATASET}{#LAYERS}.pth`.
 Then, it evaluates the trained model in terms of accuracy. 
-- `{DATASET}`: Cora, Citeseer, Pubmed
-- `{#LAYERS}`: # of layers in the teacher model
+- `{DATASET}`: cora, citeseer, pubmed.
+- `{#LAYERS}`: The number of layers in the teacher model.
 
 #### Results of the Demo
 | **Dataset**      |   **Teacher Layers** |   **Accuracy** | 
@@ -63,19 +63,19 @@ Then, it evaluates the trained model in terms of accuracy.
 We briefly summarize the hyperparameters.
 
 * Hyperparameters of MuSK
-    - `data`: name of the dataset
-    - `layer`: number of layers in the teacher
-    - `test`: evaluation on test dataset
-    - `t_hidden`: teacher's hidden feature dimension
-    - `s_hidden`: student's hidden feature dimension
-    - `lamda`: lamda in GCNII
-    - `dropout`: ratio of dropout
-    - `lbd_pred`: lambda for the prediction loss
-    - `lbd_embd`: lambda for the embedding loss
-    - `kernel`: kernel function
+    - `data`: name of the dataset.
+    - `layer`: number of layers in the teacher.
+    - `test`: evaluation on test dataset.
+    - `t_hidden`: teacher's hidden feature dimension.
+    - `s_hidden`: student's hidden feature dimension.
+    - `lamda`: lamda in GCNII.
+    - `dropout`: ratio of dropout.
+    - `lbd_pred`: lambda for the prediction loss.
+    - `lbd_embd`: lambda for the embedding loss.
+    - `kernel`: kernel function.
 
 #### Detailed Usage
-You can reproduce results with the following command.
+You can reproduce results with the following command:
 ```shell
 python -u src/citation/student_train.py --data cora --layer 64 --test --lbd_pred 1 --lbd_embd 0.01 --kernel kl
 python -u src/citation/student_train.py --data citeseer --layer 64 --t_hidden 256 --s_hidden 256 --lamda 0.6 --dropout 0.7 --test --lbd_pred 0.1 --lbd_embd 0.01 --kernel kl
@@ -90,8 +90,7 @@ python -u src/citation/teacher_train.py --data pubmed --layer 64 --hidden 256 --
 ```
 
 ### Reference implementation
-Codes are written based on [GCNII](https://github.com/chennnM/GCNII)
-
+Codes are written based on [GCNII](https://github.com/chennnM/GCNII).
 
 
 ## ogbn-proteins dataset
@@ -106,8 +105,9 @@ Codes are written based on [GCNII](https://github.com/chennnM/GCNII)
 ### Simple Demo
 You can run the demo sript by `bash ogbn-proteins.sh`.
 It trains MuSK on ogbn-proteins.
-This demo saves the trained student model at `./src/ogbn-proteins/student/student_{DATASET}{#LAYERS}.pth`.
+This demo loads a pre-trained teacher model from `src/ogbn-proteins/teacher/teacher_ogbn-proteins{#LAYERS}.pth` and saves the trained student model at `./src/ogbn-proteins/student/student_ogbn-proteins{#LAYERS}.pth`.
 Then, it evaluates the trained model in terms of ROC-AUC. 
+- `{#LAYERS}`: The number of layers in the teacher model.
 
 #### Results of the Demo
 | **Dataset**      |   **Teacher Layers** |  **ROC-AUC** | 
