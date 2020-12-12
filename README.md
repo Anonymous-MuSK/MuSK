@@ -11,19 +11,19 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 3. **Distilling Knowledge of Predictions**: The distillation of task prediction guides the student to obtain similar predictive outputs as the teacher.
 
 ## Code Description
-- `src/citation/model.py`: Model architecture of GCNII
-- `src/citation/process.py`: Processing functions used on training
-- `src/citation/utils.py`: Utility functions for GCNII
-- `src/citation/student_train.py`: Trains a student GCNII model
-- `src/citation/teacher_train.py`: Trains a teacher GCNII model
-- `src/citation/teacher`: Path for pre-trained teacher model in citation dataset
-- `src/citation/student`: Path for student model in citation dataset
-- `src/ogbn-proteins/model.py`: Model architecture of GEN
-- `src/ogbn-proteins/utils.py`: Utility functions for GEN
-- `src/ogbn-proteins/student_train.py`: Trains a student GEN model
-- `src/ogbn-proteins/teacher_train.py`: Trains a teacher GEN model
-- `src/ogbn-proteins/teacher`: Path for pre-trained teacher model in ogbn-proteins dataset
-- `src/ogbn-proteins/student`: Path for student model in ogbn-proteins dataset
+- `src/citation/model.py`: Model architecture of GCNII.
+- `src/citation/process.py`: Processing functions used on training.
+- `src/citation/utils.py`: Utility functions for GCNII.
+- `src/citation/student_train.py`: Trains a student GCNII model.
+- `src/citation/teacher_train.py`: Trains a teacher GCNII model.
+- `src/citation/teacher`: Path for pre-trained teacher models in citation dataset.
+- `src/citation/student`: Path for student models in citation dataset.
+- `src/ogbn-proteins/model.py`: Model architecture of GEN.
+- `src/ogbn-proteins/utils.py`: Utility functions for GEN.
+- `src/ogbn-proteins/student_train.py`: Trains a student GEN model.
+- `src/ogbn-proteins/teacher_train.py`: Trains a teacher GEN model.
+- `src/ogbn-proteins/teacher`: Path for pre-trained teacher model in ogbn-proteins dataset.
+- `src/ogbn-proteins/student`: Path for student model in ogbn-proteins dataset.
 
 ## Data Overview
 | **Dataset**      |                            **Path**                       | 
@@ -118,15 +118,15 @@ Then, it evaluates the trained model in terms of ROC-AUC.
 We briefly summarize the hyperparameters.
 
 * Hyperparameters of MuSK
-    - `layer`: number of layers in the teacher
-    - `hidden`: student's hidden feature dimension
-    - `lbd_pred`: lambda for the prediction loss
-    - `lbd_embd`: lambda for the embedding loss
-    - `train_bn`: train batch number
-    - `test_bn`: test batch number
+    - `layer`: number of layers in the teacher.
+    - `hidden`: student's hidden feature dimension.
+    - `lbd_pred`: lambda for the prediction loss.
+    - `lbd_embd`: lambda for the embedding loss.
+    - `train_bn`: train batch number.
+    - `test_bn`: test batch number.
 
 #### Detailed Usage
-You can reproduce results with the following command.
+You can reproduce results with the following command:
 ```shell
 python src/ogbn-proteins/teaecher_train.py --lbd_pred 0.1 --lbd_embd 0.01 --hidden 64 --layer 28 --train_bn 40 --test_bn 5
 ```
@@ -138,4 +138,4 @@ python src/ogbn-proteins/teacher_train.py --lbd_pred 0.1 --lbd_embd 0.01 --hidde
 
 
 ### Reference implementation
-Codes are written based on [deeperGCN](https://github.com/lightaime/deep_gcns_torch) and pytorch-geometric (https://github.com/rusty1s/pytorch_geometric)
+Codes are written based on [deeperGCN](https://github.com/lightaime/deep_gcns_torch) and pytorch-geometric (https://github.com/rusty1s/pytorch_geometric).
