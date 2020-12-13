@@ -40,6 +40,8 @@ We propose MuSK, a novel approach for compressing deep GCNs through distilling t
 - python 3.6.8
 - pytorch 1.7.0
 - torch-geometric 1.6.1
+- scipy 1.5.4
+- numpy 1.19.2
 
 ### Simple Demo
 You can run the demo sript in the citation dataset by `bash citation.sh`.
@@ -97,7 +99,8 @@ Codes are written based on [GCNII](https://github.com/chennnM/GCNII).
 - python 3.6.8
 - pytorch 1.4.0
 - torch-geometric 1.6.0
-- ogb 1.1.1
+- ogb 1.2.1
+- numpy 1.19.1
 
 ### Simple Demo
 You can run the demo sript in ogbn-proteins by `bash ogbn-proteins.sh`.
