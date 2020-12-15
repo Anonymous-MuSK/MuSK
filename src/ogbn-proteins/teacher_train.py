@@ -54,7 +54,7 @@ model = DeeperGCN(hidden_channels=args.hidden, num_layers=args.layer).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 criterion = torch.nn.BCEWithLogitsLoss()
 evaluator = Evaluator('ogbn-proteins')
-PATH = "./teacher/teacher_ogbn" + str(args.layer) + ".pth"
+PATH = "./src/ogbn-proteins/teacher/teacher_ogbn" + str(args.layer) + ".pth"
 
 
 def train(epoch):
