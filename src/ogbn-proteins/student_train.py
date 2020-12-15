@@ -29,7 +29,7 @@ parser.add_argument('--test_bn', type=int, default=5, help='Test batch number')
 args = parser.parse_args()
 
 # Load data
-dataset = PygNodePropPredDataset('ogbn-proteins', root='../data')
+dataset = PygNodePropPredDataset('ogbn-proteins', root='./data')
 splitted_idx = dataset.get_idx_split()
 data = dataset[0]
 data.node_species = None
