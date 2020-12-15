@@ -22,20 +22,18 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--lbd_pred', type=float, default=0.1, help='lambda for prediction loss')
 parser.add_argument('--lbd_embd', type=float, default=0.01, help='lambda for embedding loss')
 parser.add_argument('--hidden', type=int, default=64, help='hidden dimensions')
-parser.add_argument('--layer', type=int, default=64, help='Number of teacher layers')
+parser.add_argument('--layer', type=int, default=28, help='Number of teacher layers')
 parser.add_argument('--dev', type=int, default=0, help='device id')
 parser.add_argument('--train_bn', type=int, default=40, help='train batch number')
 parser.add_argument('--test_bn', type=int, default=5, help='Test batch number')
 args = parser.parse_args()
 
 # Load data
-dataset = PygNodePropPredDataset('ogbn-proteins', root='data')
+dataset = PygNodePropPredDataset('ogbn-proteins', root='../data')
 splitted_idx = dataset.get_idx_split()
 data = dataset[0]
 data.node_species = None
 data.y = data.y.to(torch.float)
-train_loader = RandomNodeSampler(data, num_parts=args.train_bn, shuffle=True, num_workers=5)
-test_loader = RandomNodeSampler(data, num_parts=args.test_bn, num_workers=5)
 
 # Initialize features of nodes by aggregating edge features.
 row, col = data.edge_index
@@ -46,6 +44,8 @@ for split in ['train', 'valid', 'test']:
     mask = torch.zeros(data.num_nodes, dtype=torch.bool)
     mask[splitted_idx[split]] = True
     data[f'{split}_mask'] = mask
+train_loader = RandomNodeSampler(data, num_parts=args.train_bn, shuffle=True, num_workers=5)
+test_loader = RandomNodeSampler(data, num_parts=args.test_bn, num_workers=5)
 
 # Define models
 device = torch.device(f'cuda:{args.dev}' if torch.cuda.is_available() else 'cpu')
@@ -55,9 +55,8 @@ t_optimizer = torch.optim.Adam(t_model.parameters(), lr=0.01)
 s_optimizer = torch.optim.Adam(s_model.parameters(), lr=0.01)
 criterion = torch.nn.BCEWithLogitsLoss()
 evaluator = Evaluator('ogbn-proteins')
-t_PATH = "./src/ogbn-proteins/teacher/teacher_ogbn" + str(args.layer) + ".pth"
-s_PATH = "./src/ogbn-proteins/student/student_ogbn" + str(args.layer) + ".pth"
-
+t_PATH = "./teacher/teacher_ogbn" + str(args.layer) + ".pth"
+s_PATH = "./student/student_ogbn" + str(args.layer) + ".pth"
 
 def train_student_model(t_model, epoch):
     """
@@ -89,7 +88,7 @@ def train_student_model(t_model, epoch):
         s_y = F.log_softmax(s_logits[data.train_mask], dim=1)
         t_y = F.softmax(t_logits[data.train_mask], dim=1)
         pred_loss = kl_loss_op(s_y, t_y)
-        pred_loss = torch.mean(torch.sum(kl_loss, dim=1))
+        pred_loss = torch.mean(torch.sum(pred_loss, dim=1))
 
         # loss_BCE
         BCE_loss = criterion(s_logits[data.train_mask], data.y[data.train_mask])
@@ -112,6 +111,7 @@ def train_student_model(t_model, epoch):
     pbar.close()
 
     return total_loss / total_examples
+
 
 @torch.no_grad()
 def test(model):
@@ -160,7 +160,6 @@ def test(model):
     return train_rocauc, valid_rocauc, test_rocauc
 
 
-# Start training
 t_max_idx = 0
 s_max_idx = 0
 t_max_acc = [0, 0, 0]

@@ -34,8 +34,6 @@ splitted_idx = dataset.get_idx_split()
 data = dataset[0]
 data.node_species = None
 data.y = data.y.to(torch.float)
-train_loader = RandomNodeSampler(data, num_parts=40, shuffle=True, num_workers=5)
-test_loader = RandomNodeSampler(data, num_parts=5, num_workers=5)
 
 # Initialize features of nodes by aggregating edge features.
 row, col = data.edge_index
@@ -46,6 +44,9 @@ for split in ['train', 'valid', 'test']:
     mask = torch.zeros(data.num_nodes, dtype=torch.bool)
     mask[splitted_idx[split]] = True
     data[f'{split}_mask'] = mask
+
+train_loader = RandomNodeSampler(data, num_parts=40, shuffle=True, num_workers=5)
+test_loader = RandomNodeSampler(data, num_parts=5, num_workers=5)
 
 # Define models
 device = torch.device(f'cuda:{args.dev}' if torch.cuda.is_available() else 'cpu')

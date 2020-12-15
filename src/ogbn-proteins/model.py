@@ -15,6 +15,17 @@ from torch_scatter import scatter, scatter_softmax
 from torch_geometric.nn.conv import MessagePassing
 from utils import *
 
+# Load data
+dataset = PygNodePropPredDataset('ogbn-proteins', root='../data')
+splitted_idx = dataset.get_idx_split()
+data = dataset[0]
+data.node_species = None
+data.y = data.y.to(torch.float)
+
+# Initialize features of nodes by aggregating edge features.
+row, col = data.edge_index
+data.x = scatter(data.edge_attr, col, 0, dim_size=data.num_nodes, reduce='add')
+
 class DeeperGCN(torch.nn.Module):
     def __init__(self, hidden_channels, num_layers):
         """
@@ -50,6 +61,7 @@ class DeeperGCN(torch.nn.Module):
         :param edge_attr: weight for each adjacency matrix index
         :return: task prediction, hidden representation set
         """
+
         xs = list()
         x = self.node_encoder(x)
         edge_attr = self.edge_encoder(edge_attr)
@@ -65,6 +77,7 @@ class DeeperGCN(torch.nn.Module):
         xs.append(x)
 
         return self.lin(x), xs
+
 
 class student(torch.nn.Module):
     def __init__(self, hidden_channels, num_layers):
@@ -108,7 +121,7 @@ class student(torch.nn.Module):
 
         x = self.layers[0].conv(x, edge_index, edge_attr)
 
-        for i in range(nl-1):
+        for i in range(self.num_layers-1):
             x = self.layers[1](x, edge_index, edge_attr)
             xs.append(x)
 

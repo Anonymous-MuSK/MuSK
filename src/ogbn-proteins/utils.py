@@ -77,6 +77,7 @@ class MessageNorm(torch.nn.Module):
         self.scale.data.fill_(1.0)
 
     def forward(self, x: Tensor, msg: Tensor, p: int = 2):
+        """"""
         msg = F.normalize(msg, p=p, dim=-1)
         x_norm = x.norm(p=p, dim=-1, keepdim=True)
         return msg * x_norm * self.scale
@@ -85,7 +86,6 @@ class MessageNorm(torch.nn.Module):
         return ('{}(learn_scale={})').format(self.__class__.__name__,
                                              self.scale.requires_grad)
 
-# adapt pytorch-geometric
 class GENConv(MessagePassing):
     def __init__(self, in_channels: int, out_channels: int,
                  aggr: str = 'softmax', t: float = 1.0, learn_t: bool = False,
@@ -123,7 +123,6 @@ class GENConv(MessagePassing):
             function. (default: :obj:`1e-7`)
         :param **kwargs (optional): Additional arguments of :class:`torch_geometric.nn.conv.GenMessagePassing`.
         """
-
         super(GENConv, self).__init__(aggr=None, **kwargs)
 
         self.in_channels = in_channels
@@ -221,7 +220,7 @@ class GENConv(MessagePassing):
                                             self.in_channels,
                                             self.out_channels, self.aggr)
 
-# based on pytorch-geometric
+
 class RandomIndexSampler(torch.utils.data.Sampler):
     def __init__(self, num_nodes: int, num_parts: int, shuffle: bool = False):
         """
@@ -298,6 +297,7 @@ class RandomNodeSampler(torch.utils.data.DataLoader):
 
         return data
 
+
 class DeepGCNLayer(torch.nn.Module):
     def __init__(self, conv=None, norm=None, act=None, block='res+',
                  dropout=0., ckpt_grad=False):
@@ -359,5 +359,12 @@ class DeepGCNLayer(torch.nn.Module):
     def __repr__(self):
         return '{}(block={})'.format(self.__class__.__name__, self.block)
 
+
 def count_parameters(model):
+    """
+    Count parameters of a model
+    
+    :param model: model
+    :return: # of parameters of the model
+    """
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
